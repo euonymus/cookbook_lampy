@@ -9,6 +9,6 @@ version          '0.1.0'
 
 depends 'apache2'
 depends 'mysql', '~> 8.0'
-depends 'python'
+depends 'poise-python'
 depends 'database'
 depends 'mysql2_chef_gem'
