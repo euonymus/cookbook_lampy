@@ -6,17 +6,17 @@ if node['apache']['mpm'] != 'prefork'
 end
 
 # settings for vhost
-directory(node[:lamp][:www_root])
+directory(node[:lampy][:www_root])
 # put apache config
-web_app(node[:lamp][:app_name]) do
-  server_name(node[:lamp][:domain])
-  docroot(node[:lamp][:app_root])
+web_app(node[:lampy][:app_name]) do
+  server_name(node[:lampy][:domain])
+  docroot(node[:lampy][:app_root])
   template('vhost.conf.erb')
 end
 
 if node.chef_environment != 'virtualbox'
-  link node[:lamp][:app_root] do
-    to node[:lamp][:app_source]
+  link node[:lampy][:app_root] do
+    to node[:lampy][:app_source]
   end
 end
 

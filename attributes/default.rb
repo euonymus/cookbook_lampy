@@ -1,37 +1,37 @@
-default[:lamp][:app_name]     = 'lampapp'
+default[:lampy][:app_name]     = 'lampapp'
 
-default[:lamp][:www_root]     = "/var/www"
-default[:lamp][:app_root]     = "#{node[:lamp][:www_root]}/#{node[:lamp][:app_name]}"
+default[:lampy][:www_root]     = "/var/www"
+default[:lampy][:app_root]     = "#{node[:lampy][:www_root]}/#{node[:lampy][:app_name]}"
 
-default[:lamp][:app_source]  = "/vagrant/src/#{node[:lamp][:app_name]}"
+default[:lampy][:app_source]  = "/vagrant/src/#{node[:lampy][:app_name]}"
 
-default[:lamp][:shell_base]  = '/usr/local/bin'
+default[:lampy][:shell_base]  = '/usr/local/bin'
 
 # The path to the data_bag_key on the remote server
-default[:lamp][:secretpath] = "/vagrant/src/secrets/data_bag_key"
+default[:lampy][:secretpath] = "/vagrant/src/secrets/data_bag_key"
 
-# look for secret in file pointed to with lamp attribute :secretpath
-data_bag_secret = Chef::EncryptedDataBagItem.load_secret("#{node[:lamp][:secretpath]}")
+# look for secret in file pointed to with lampy attribute :secretpath
+data_bag_secret = Chef::EncryptedDataBagItem.load_secret("#{node[:lampy][:secretpath]}")
 
 # Set domains from data_bag
 domain_creds = Chef::EncryptedDataBagItem.load("envs", "domain", data_bag_secret)
 if data_bag_secret && domain_envs = domain_creds[node.chef_environment]
-  default[:lamp][:domain] = domain_envs['domain']
+  default[:lampy][:domain] = domain_envs['domain']
 end
 
 # Set MySQL info from data_bag
 mysqlinfo_creds = Chef::EncryptedDataBagItem.load("envs", "mysql", data_bag_secret)
 if data_bag_secret && mysql_envs = mysqlinfo_creds[node.chef_environment]
-  default[:lamp][:db_name]      = mysql_envs['db_name']
-  default[:lamp][:db_user]      = mysql_envs['db_user']
-  default[:lamp][:testdb_name]  = mysql_envs['testdb_name']
-  default[:lamp][:testdb_user]  = mysql_envs['testdb_user']
+  default[:lampy][:db_name]      = mysql_envs['db_name']
+  default[:lampy][:db_user]      = mysql_envs['db_user']
+  default[:lampy][:testdb_name]  = mysql_envs['testdb_name']
+  default[:lampy][:testdb_user]  = mysql_envs['testdb_user']
 end
 # Set MySQL passwords from data_bag
 mysql_creds = Chef::EncryptedDataBagItem.load("passwords", "mysql", data_bag_secret)
 if data_bag_secret && mysql_passwords = mysql_creds[node.chef_environment]
-  default[:lamp][:db_password_root] = mysql_passwords['root']
-  default[:lamp][:db_password] = mysql_passwords['app']
+  default[:lampy][:db_password_root] = mysql_passwords['root']
+  default[:lampy][:db_password] = mysql_passwords['app']
 end
 
 # php.ini
@@ -40,8 +40,8 @@ default['php']['directives'] = {
   "short_open_tag" => "On",
   "memory_limit" => "128M"
 }
-default[:lamp][:php_conf_dir_apache] = '/etc/php/7.1/apache2'
-default[:lamp][:php_conf_dir_cli] = '/etc/php/7.1/cli'
+default[:lampy][:php_conf_dir_apache] = '/etc/php/7.1/apache2'
+default[:lampy][:php_conf_dir_cli] = '/etc/php/7.1/cli'
 
 # Settings for php7.1
 default['php']['conf_dir'] = '/etc/php/7.1/cli'
