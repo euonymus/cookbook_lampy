@@ -6,6 +6,10 @@ ServerName <%= @params[:server_name] %>
 
   RewriteEngine On
 
+  # You have to setup adapter.wsgi on <%= @params[:docroot] %>
+  WSGIDaemonProcess <%= @params[:name] %> python-path=<%= @params[:docroot] %> python-home=<%= @params[:docroot] %>/.env
+  WSGIScriptAlias / <%= @params[:docroot] %>/adapter.wsgi process-group=<%= @params[:name] %> application-group=%{GLOBAL}
+
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
     AllowOverride All

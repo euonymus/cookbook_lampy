@@ -1,13 +1,11 @@
 python_runtime '3'
 
-python_virtualenv '/var/www/lampapp/.env'
+
+python_virtualenv "#{node[:lampy][:app_root]}/.env"
 
 # python_package 'Django' do
 #   version '1.8'
 # end
-
-pip_requirements '/var/www/lampapp/requirements.txt'
-
 
 # include_recipe 'apache2::mod_wsgi'
 case node['platform_family']
@@ -26,9 +24,12 @@ end
 
 apache_module 'wsgi'
 
-# package 'python' do
-#   action :install
-# end
-# package 'python-venv' do
-#   action :install
-# end
+
+# settings for vhost with wsgi
+directory(node[:lampy][:www_root])
+# put apache config
+web_app(node[:lampy][:app_name]) do
+  server_name(node[:lampy][:domain])
+  docroot(node[:lampy][:app_root])
+  template('vhost_wsgi.conf.erb')
+end
