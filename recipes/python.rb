@@ -1,5 +1,10 @@
 python_runtime '3'
 
+# delete .env directory if it exists
+directory "#{node[:lampy][:app_root]}/.env" do
+  recursive true
+  action :delete
+end
 
 python_virtualenv "#{node[:lampy][:app_root]}/.env"
 
